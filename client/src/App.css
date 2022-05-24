@@ -1,0 +1,287 @@
+:root {
+  --direction: '';
+}
+
+body {
+  background-color: rgb(49, 189, 207);
+}
+
+input {
+  width: 100%;
+  height: 30px;
+  font-size: large;
+  border: 1px solid black;
+  outline: 0;
+  border-radius: 5px;
+}
+
+input:focus {
+  outline: 0;
+  border: 1px solid rgba(81, 203, 238, 1);
+  box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+}
+
+svg,
+path {
+  pointer-events: none;
+}
+
+#title {
+  text-decoration: underline;
+  font-size: 40px;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+}
+
+#board {
+  background-color: aliceblue;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin: auto;
+}
+
+.blocks {
+  width: 100px;
+  height: 100px;
+  line-break: auto;
+  border: 1px solid black;
+  padding: 5px;
+}
+
+.end {
+  background-color: cornflowerblue;
+}
+
+.sliders {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: burlywood;
+  transition: transform 2s;
+}
+
+.player {
+  grid-area: player;
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  border: none;
+  border-radius: 15px;
+  font-size: 15px;
+  pointer-events: none;
+  transition: transform 1s;
+}
+
+.scoreboard-players,
+.scoreboard-time-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 80px;
+}
+
+.scoreboard-name,
+.scoreboard-moves,
+.scoreboard-time-title,
+.scoreboard-time {
+  font-size: larger;
+  display: flex;
+  justify-content: center;
+}
+
+#title,
+.player {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button {
+  cursor: pointer;
+}
+
+.btns {
+  width: 100%;
+  height: 100%;
+  grid-area: btns;
+  display: grid;
+  grid-template-areas:
+    ". upBtn ."
+    "leftBtn . rightBtn"
+    ". downBtn ."
+}
+
+.upBtn,
+.downBtn,
+.leftBtn,
+.rightBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: none;
+  border: none;
+}
+
+.upBtn {
+  align-items: flex-start;
+  grid-area: upBtn;
+}
+
+.downBtn {
+  align-items: flex-end;
+  grid-area: downBtn;
+}
+
+.leftBtn {
+  justify-content: flex-start;
+  grid-area: leftBtn;
+}
+
+.rightBtn {
+  justify-content: flex-end;
+  grid-area: rightBtn;
+}
+
+.hide {
+  visibility: hidden;
+}
+
+#component-container {
+  z-index: 1000;
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+}
+
+.modal-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 700px;
+}
+
+.modal {
+  margin: auto;
+  position: absolute;
+  background: white;
+  border: none;
+  border-radius: 5px;
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 4px 1px;
+}
+
+#overlay {
+  pointer-events: none;
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(83, 83, 83, 0.219);
+}
+
+.winner {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+.player-status-title {
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.status {
+  box-shadow: 0 0 3px 1px inset black;
+  padding: 3px 10px;
+  margin-left: 10px;
+  border-radius: 10px;
+}
+
+.modal-btns {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 20px 0;
+}
+
+#join {
+  margin: 15px 0 10px 0;
+  color: black;
+  background-color: #99b9f3;
+}
+
+#rematch {
+  color: white;
+  background-color: #03a503;
+}
+
+#leave {
+  color: white;
+  background-color: red;
+}
+
+#rematch,
+#leave,
+#join {
+  width: 80px;
+  height: 30px;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0 5px #999;
+  cursor: pointer;
+  outline: none;
+}
+
+#join:hover,
+#join:active {
+  background-color: #679cfd;
+}
+
+#rematch:hover,
+#rematch:active {
+  background-color: green;
+}
+
+#leave:hover,
+#leave:active {
+  background-color: #b90101;
+}
+
+#join:active,
+#rematch:active,
+#leave:active {
+  box-shadow: 0 3px #666;
+  transform: translateY(3px);
+}
+
+@media (max-width: 1024px) {}
+
+@media (max-width: 850px) {
+  .blocks {
+    height: 80px;
+    width: 80px;
+  }
+
+  svg {
+    width: 15px;
+    height: 15px;
+  }
+}
+
+@media (max-width: 500px) {
+  .blocks {
+    height: 30px;
+    width: 30px;
+  }
+
+  svg {
+    width: 10px;
+    height: 10px;
+  }
+}
