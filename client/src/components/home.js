@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { onKeyPress } from '../event-functions';
 
 const style = {
     display: 'flex',
@@ -49,11 +50,3 @@ const onClick = (socket, navigate) => {
         input.value = '';
     }
 }
-
-const onKeyPress = (e) => {
-    if (e.key === "Enter") {
-        e.preventDefault();
-        document.getElementById('join').click();
-    }
-}
-

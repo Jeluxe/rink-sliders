@@ -31,8 +31,6 @@ export default function WinnerModal({ socket, winner, players, rematch }) {
                 setPlayer2Status('Left');
             }
         })
-
-
         // eslint-disable-next-line 
     }, []);
 

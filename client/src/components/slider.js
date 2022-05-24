@@ -1,7 +1,13 @@
 import React, { useEffect } from "react";
 import Buttons from "./buttons";
 import Player from './player';
-import { checkValidDirections, borders, hideBtns } from '../functions';
+import { playerMove } from '../event-functions';
+import {
+    checkValidDirections,
+    getDirectionType,
+    hideBtns,
+    playerAnimation
+} from '../functions';
 
 export default function Slider({ socket, player, turn, setTurn, getWinner }) {
     useEffect(() => {
@@ -19,7 +25,7 @@ export default function Slider({ socket, player, turn, setTurn, getWinner }) {
                     if (slider && !slider.children[1] && checkSurroundings(turn, playerBlockPos, tgtPos)) {
                         hideBtns(currentPlayer.parentNode);
                         const direction = getDirectionType(playerBlockPos, tgtPos);
-                        animation(currentPlayer, direction);
+                        playerAnimation(currentPlayer, direction);
                         currentPlayer.addEventListener('transitionend', () => {
                             currentPlayer.style.transform = null;
                             playerMove(currentPlayer, slider);
@@ -53,68 +59,6 @@ export default function Slider({ socket, player, turn, setTurn, getWinner }) {
             <Buttons socket={socket} turn={turn} setTurn={setTurn} getWinner={getWinner} />
         </div>
     )
-}
-
-const playerMove = (currentPlayer, tgt) => {
-    hideBtns(currentPlayer.parentNode);
-    currentPlayer.parentNode.removeChild(currentPlayer);
-    tgt.append(currentPlayer);
-}
-
-const checkSurroundings = (turn, playerPos, tgt) => {
-    let tgtPos = Number(tgt);
-    if (playerPos - 7 === tgtPos && borders(tgtPos, 'up')) {
-        turn.pos = tgtPos;
-        return true;
-    }
-    else if (playerPos + 7 === tgtPos && borders(tgtPos, 'down')) {
-        turn.pos = tgtPos;
-        return true;
-    }
-    else if (playerPos - 1 === tgtPos && borders(tgtPos + 1, 'left')) {
-        turn.pos = tgtPos;
-        return true;
-    }
-    else if (playerPos + 1 === tgtPos && borders(tgtPos - 1, 'right')) {
-        turn.pos = tgtPos;
-        return true;
-    } else {
-        return false;
-    }
-}
-
-const getDirectionType = (playerPos, tgtPos) => {
-    if (playerPos - 7 === tgtPos) {
-        return 'up';
-    }
-    else if (playerPos + 7 === tgtPos) {
-        return 'down';
-    }
-    else if (playerPos - 1 === tgtPos) {
-        return 'left';
-    }
-    else if (playerPos + 1 === tgtPos) {
-        return 'right';
-    }
-}
-
-const animation = (player, type) => {
-    if (type === 'left') {
-        player.style.transform = 'translateX(' + (-100) + 'px)';
-        return 'translateX(' + (0) + 'px)';
-    }
-    else if (type === 'right') {
-        player.style.transform = 'translateX(' + (100) + 'px)';
-        return 'translateX(' + (0) + 'px)';
-    }
-    else if (type === 'up') {
-        player.style.transform = 'translateY(' + (-100) + 'px)';
-        return 'translateY(' + (0) + 'px)';
-    }
-    else if (type === 'down') {
-        player.style.transform = 'translateY(' + (100) + 'px)';
-        return 'translateY(' + (0) + 'px)';
-    }
 }
 
 // grid-template-areas:

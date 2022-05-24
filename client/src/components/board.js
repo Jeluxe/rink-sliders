@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { checkValidDirections } from '../functions';
+import { createBoard, checkValidDirections } from '../functions';
 import Scoreboard from './scoreboard';
-import Slider from './slider';
 import WinnerModal from './winner-modal';
 
 
@@ -17,8 +16,6 @@ export default function Board({ socket }) {
     const [player1Moves, setPlayer1Moves] = useState(0);
     const [player2Moves, setPlayer2Moves] = useState(0);
     const [winner, setWinner] = useState(null);
-
-
 
 
     useEffect(() => {
@@ -80,7 +77,7 @@ export default function Board({ socket }) {
             checkValidDirections(Number(currentPlayer.pos), document.getElementById(`${currentPlayer.id}`).parentNode);
         });
 
-        socket.off('set winner').on('winner', (winner) => {
+        socket.off('winner').on('winner', (winner) => {
             setWinner(winner);
         })
     });
@@ -110,54 +107,8 @@ export default function Board({ socket }) {
         }
     }, [winner]);
 
-    const createBoard = () => {
-        const array = [];
-        let i = 1;
-        while (i <= 49) {
-            if (i === 1 || i === 2 || i === 6 || i === 7 ||
-                i === 8 || i === 14 || i === 36 || i === 42 ||
-                i === 43 || i === 44 || i === 48 || i === 49) {
-                if (i === 1 || i === 49) {
-                    array.push(<div id={i} key={i} className="blocks">
-                        <Slider
-                            socket={socket}
-                            player={(i === 1) ? player1 : player2}
-                            turn={turn}
-                            setTurn={newTurn}
-                            players={[player1, player2]}
-                            getWinner={getWinner} />
-                    </div>);
-                } else {
-                    array.push(<div id={i} key={i} className="blocks">
-                        <Slider
-                            socket={socket}
-                            turn={turn}
-                            setTurn={newTurn}
-                            players={[player1, player2]}
-                            getWinner={getWinner} />
-                    </div>);
-                }
-            }
-            else if (i === 25) {
-                array.push(<div id={i} key={i} className="blocks end"></div>);
-            } else {
-                array.push(<div id={i} key={i} className="blocks"></div>);
-            }
-            i++;
-        }
-
-        return array;
-    }
-
     const newTurn = (currentPlayer) => {
-        if (socket.id === turn.id) {
-            if (turnFlag) {
-                socket.emit('change turn', currentPlayer);
-
-            } else {
-                socket.emit('change turn', currentPlayer);
-            }
-        }
+        socket.emit('change turn', currentPlayer);
     }
 
     const getWinner = (player) => {
@@ -175,7 +126,7 @@ export default function Board({ socket }) {
     return (
         <div id="board-container" style={{ display: 'flex', flexDirection: 'column' }}>
             {turn && <Scoreboard players={[player1.name, player2.name]} moves={[player1Moves, player2Moves]} winner={winner} />}
-            <div id="board">{(turn) ? createBoard() : <div>no users</div>}</div>
+            <div id="board">{(turn) ? createBoard(socket, player1, player2, turn, newTurn, getWinner) : <div>no users</div>}</div>
             {winner && <WinnerModal socket={socket} winner={winner} players={[player1, player2]} rematch={rematch} />}
         </div>
     )

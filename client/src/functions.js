@@ -1,3 +1,66 @@
+import Slider from './components/slider';
+
+const createBoard = (socket, player1, player2, turn) => {
+    const array = [];
+    let i = 1;
+    while (i <= 49) {
+        if (i === 1 || i === 2 || i === 6 || i === 7 ||
+            i === 8 || i === 14 || i === 36 || i === 42 ||
+            i === 43 || i === 44 || i === 48 || i === 49) {
+            if (i === 1 || i === 49) {
+                array.push(<div id={i} key={i} className="blocks">
+                    <Slider
+                        socket={socket}
+                        player={(i === 1) ? player1 : player2}
+                        turn={turn}
+                        setTurn={newTurn}
+                        players={[player1, player2]}
+                        getWinner={getWinner} />
+                </div>);
+            } else {
+                array.push(<div id={i} key={i} className="blocks">
+                    <Slider
+                        socket={socket}
+                        turn={turn}
+                        setTurn={newTurn}
+                        players={[player1, player2]}
+                        getWinner={getWinner} />
+                </div>);
+            }
+        }
+        else if (i === 25) {
+            array.push(<div id={i} key={i} className="blocks end"></div>);
+        } else {
+            array.push(<div id={i} key={i} className="blocks"></div>);
+        }
+        i++;
+    }
+
+    return array;
+}
+
+const checkSurroundings = (turn, playerPos, tgt) => {
+    let tgtPos = Number(tgt);
+    if (playerPos - 7 === tgtPos && borders(tgtPos, 'up')) {
+        turn.pos = tgtPos;
+        return true;
+    }
+    else if (playerPos + 7 === tgtPos && borders(tgtPos, 'down')) {
+        turn.pos = tgtPos;
+        return true;
+    }
+    else if (playerPos - 1 === tgtPos && borders(tgtPos + 1, 'left')) {
+        turn.pos = tgtPos;
+        return true;
+    }
+    else if (playerPos + 1 === tgtPos && borders(tgtPos - 1, 'right')) {
+        turn.pos = tgtPos;
+        return true;
+    } else {
+        return false;
+    }
+}
+
 const checkValidDirections = (pos, block) => {
     if ((pos, 'up')) {
         let position = pos;
@@ -55,6 +118,21 @@ const borders = (tgt, direction) => {
     }
 }
 
+const getDirectionType = (playerPos, tgtPos) => {
+    if (playerPos - 7 === tgtPos) {
+        return 'up';
+    }
+    else if (playerPos + 7 === tgtPos) {
+        return 'down';
+    }
+    else if (playerPos - 1 === tgtPos) {
+        return 'left';
+    }
+    else if (playerPos + 1 === tgtPos) {
+        return 'right';
+    }
+}
+
 const getArray = (type) => {
     switch (type) {
         case 'up':
@@ -82,4 +160,52 @@ const hideBtns = (block) => {
     });
 }
 
-module.exports = { checkValidDirections, validBlock, borders, getArray, hideBtns }
+const playerAnimation = (player, direction) => {
+    if (direction === 'left') {
+        player.style.transform = 'translateX(' + (-100) + 'px)';
+        return 'translateX(' + (0) + 'px)';
+    }
+    else if (direction === 'right') {
+        player.style.transform = 'translateX(' + (100) + 'px)';
+        return 'translateX(' + (0) + 'px)';
+    }
+    else if (direction === 'up') {
+        player.style.transform = 'translateY(' + (-100) + 'px)';
+        return 'translateY(' + (0) + 'px)';
+    }
+    else if (direction === 'down') {
+        player.style.transform = 'translateY(' + (100) + 'px)';
+        return 'translateY(' + (0) + 'px)';
+    }
+}
+
+const sliderAnimation = (src, counter, direction) => {
+    if (direction === 'left') {
+        src.style.transform = 'translateX(' + (-111 * counter) + 'px)';
+        return 'translateX(' + (0) + 'px)';
+    }
+    else if (direction === 'right') {
+        src.style.transform = 'translateX(' + (111 * counter) + 'px)';
+        return 'translateX(' + (0) + 'px)';
+    }
+    else if (direction === 'up') {
+        src.style.transform = 'translateY(' + (-111 * counter) + 'px)';
+        return 'translateY(' + (0) + 'px)';
+    }
+    else if (direction === 'down') {
+        src.style.transform = 'translateY(' + (111 * counter) + 'px)';
+        return 'translateY(' + (0) + 'px)';
+    }
+}
+
+module.exports = {
+    createBoard,
+    checkSurroundings,
+    checkValidDirections,
+    validBlock,
+    getDirectionType,
+    getArray,
+    hideBtns,
+    playerAnimation,
+    sliderAnimation
+}
