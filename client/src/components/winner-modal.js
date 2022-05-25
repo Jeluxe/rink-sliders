@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { checkPlayerStatus } from '../functions';
 
 const style = {
     display: 'flex',
@@ -76,8 +77,8 @@ export default function WinnerModal({ socket, winner, players, rematch }) {
                         <div><b>Winner:  {winner.name}</b></div>
                     </div>
                     <div className='player-status-title'>
-                        <div style={style}>{players[0].name}: <span className='status' style={{ color: (player1Status === 'waiting') ? 'black' : (player1Status === 'Ready') ? 'green' : 'red' }}><b>{player1Status}</b></span></div>
-                        <div style={style}>{players[1].name}: <span className='status' style={{ color: (player2Status === 'waiting') ? 'black' : (player2Status === 'Ready') ? 'green' : 'red' }}> <b>{player2Status}</b></span></div>
+                        <div style={style}>{players[0].name}: <span className='status' style={{ color: checkPlayerStatus(player1Status) }}><b>{player1Status}</b></span></div>
+                        <div style={style}>{players[1].name}: <span className='status' style={{ color: checkPlayerStatus(player2Status) }}> <b>{player2Status}</b></span></div>
                     </div>
                     <div className="modal-btns">
                         <button id="rematch" type='button' onClick={onReady}><b>Ready</b></button>
@@ -88,3 +89,4 @@ export default function WinnerModal({ socket, winner, players, rematch }) {
         </div>
     )
 }
+

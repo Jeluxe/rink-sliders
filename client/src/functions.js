@@ -198,6 +198,18 @@ const sliderAnimation = (src, counter, direction) => {
     }
 }
 
+const checkPlayerStatus = (playerStatus) => {
+    if (playerStatus === 'waiting') {
+        return 'black';
+    }
+    else if (playerStatus === 'Ready') {
+        return 'green';
+    }
+    else {
+        return 'red';
+    }
+}
+
 module.exports = {
     createBoard,
     checkSurroundings,
@@ -207,5 +219,6 @@ module.exports = {
     getArray,
     hideBtns,
     playerAnimation,
-    sliderAnimation
+    sliderAnimation,
+    checkPlayerStatus
 }
