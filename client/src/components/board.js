@@ -80,9 +80,9 @@ export default function Board({ socket }) {
         socket.off('winner').on('winner', (winner) => {
             setWinner(winner);
         })
-    });
+    }, []);
 
-    useEffect(() => { socket.emit('starting game', id) }, [socket, id]);
+    useEffect(() => socket.emit('starting game', id), [socket, id]);
 
     useEffect(() => {
         setTurn(startingPlayer)
@@ -94,7 +94,7 @@ export default function Board({ socket }) {
         // eslint-disable-next-line
     }, [startingPlayer]);
 
-    useEffect(() => { }, [turnFlag]);
+    useEffect(() => turnFlag, [turnFlag]);
 
     useEffect(() => {
         socket.emit('player move counter', player1Moves, player2Moves);

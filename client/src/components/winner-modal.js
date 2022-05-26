@@ -89,4 +89,3 @@ export default function WinnerModal({ socket, winner, players, rematch }) {
         </div>
     )
 }
-

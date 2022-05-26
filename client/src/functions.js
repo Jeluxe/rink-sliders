@@ -102,13 +102,7 @@ const validBlock = (pos) => {
 
 const borders = (tgt, direction) => {
     let array = getArray(direction);
-    if (tgt === array[0] ||
-        tgt === array[1] ||
-        tgt === array[2] ||
-        tgt === array[3] ||
-        tgt === array[4] ||
-        tgt === array[5] ||
-        tgt === array[6]) {
+    if (array.filter(item => item === tgt)) {
         if (direction === 'up' || direction === 'down') {
             return true;
         }
