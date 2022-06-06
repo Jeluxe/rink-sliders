@@ -1,6 +1,6 @@
 import Slider from './components/slider';
 
-const createBoard = (socket, player1, player2, turn) => {
+const createBoard = (socket, player1, player2, turn, newTurn, getWinner) => {
     const array = [];
     let i = 1;
     while (i <= 49) {
@@ -102,7 +102,7 @@ const validBlock = (pos) => {
 
 const borders = (tgt, direction) => {
     let array = getArray(direction);
-    if (array.filter(item => item === tgt)) {
+    if (array.filter(item => item === tgt).length) {
         if (direction === 'up' || direction === 'down') {
             return true;
         }
@@ -156,38 +156,38 @@ const hideBtns = (block) => {
 
 const playerAnimation = (player, direction) => {
     if (direction === 'left') {
-        player.style.transform = 'translateX(' + (-100) + 'px)';
+        player.style.transform = (window.outerWidth > 768) ? 'translateX(' + (-105) + 'px)' : 'translateX(' + (-43) + 'px)';
         return 'translateX(' + (0) + 'px)';
     }
     else if (direction === 'right') {
-        player.style.transform = 'translateX(' + (100) + 'px)';
+        player.style.transform = (window.outerWidth > 768) ? 'translateX(' + (105) + 'px)' : 'translateX(' + (43) + 'px)';
         return 'translateX(' + (0) + 'px)';
     }
     else if (direction === 'up') {
-        player.style.transform = 'translateY(' + (-100) + 'px)';
+        player.style.transform = (window.outerHeight > 852) ? 'translateY(' + (-105) + 'px)' : 'translateY(' + (-43) + 'px)';
         return 'translateY(' + (0) + 'px)';
     }
     else if (direction === 'down') {
-        player.style.transform = 'translateY(' + (100) + 'px)';
+        player.style.transform = (window.outerHeight > 852) ? 'translateY(' + (105) + 'px)' : 'translateY(' + (43) + 'px)';
         return 'translateY(' + (0) + 'px)';
     }
 }
 
 const sliderAnimation = (src, counter, direction) => {
     if (direction === 'left') {
-        src.style.transform = 'translateX(' + (-111 * counter) + 'px)';
+        src.style.transform = (window.outerWidth > 768) ? 'translateX(' + (-111 * counter) + 'px)' : 'translateX(' + (-43 * counter) + 'px)';
         return 'translateX(' + (0) + 'px)';
     }
     else if (direction === 'right') {
-        src.style.transform = 'translateX(' + (111 * counter) + 'px)';
+        src.style.transform = (window.outerWidth > 768) ? 'translateX(' + (111 * counter) + 'px)' : 'translateX(' + (43 * counter) + 'px)';
         return 'translateX(' + (0) + 'px)';
     }
     else if (direction === 'up') {
-        src.style.transform = 'translateY(' + (-111 * counter) + 'px)';
+        src.style.transform = (window.outerHeight > 852) ? 'translateY(' + (-111 * counter) + 'px)' : 'translateY(' + (-43 * counter) + 'px)';
         return 'translateY(' + (0) + 'px)';
     }
     else if (direction === 'down') {
-        src.style.transform = 'translateY(' + (111 * counter) + 'px)';
+        src.style.transform = (window.outerHeight > 852) ? 'translateY(' + (111 * counter) + 'px)' : 'translateY(' + (43 * counter) + 'px)';
         return 'translateY(' + (0) + 'px)';
     }
 }
@@ -204,7 +204,7 @@ const checkPlayerStatus = (playerStatus) => {
     }
 }
 
-module.exports = {
+export {
     createBoard,
     checkSurroundings,
     checkValidDirections,

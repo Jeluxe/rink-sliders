@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { checkPlayerStatus } from '../functions';
-
-const style = {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center'
-}
+import {
+    ModalContainer,
+    ModalWrapper,
+    Modal,
+    ModalBtnsWrapper,
+    Overlay,
+    WinnerName,
+    PlayerStatusContainer,
+    PlayerStatusWrapper,
+    Status,
+    RematchBtn,
+    LeaveBtn,
+} from '../styles/sc-winner-modal';
 
 
 export default function WinnerModal({ socket, winner, players, rematch }) {
@@ -39,7 +46,7 @@ export default function WinnerModal({ socket, winner, players, rematch }) {
         if (player1Status === 'Ready' && player2Status === 'Ready') {
             setPlayer1Status('waiting');
             setPlayer2Status('waiting');
-            document.getElementById('component-container').classList.add('hide');
+            document.getElementById('mc').classList.add('hide');
             rematch();
         }
         else if (player1Status === 'Left' || player2Status === 'Left') {
@@ -68,24 +75,31 @@ export default function WinnerModal({ socket, winner, players, rematch }) {
     }
 
     return (
-        <div id='component-container' className='hide'>
-            <div id="overlay">
-            </div>
-            <div className='modal-container'>
-                <div className='modal'>
-                    <div className='winner'>
-                        <div><b>Winner:  {winner.name}</b></div>
-                    </div>
-                    <div className='player-status-title'>
-                        <div style={style}>{players[0].name}: <span className='status' style={{ color: checkPlayerStatus(player1Status) }}><b>{player1Status}</b></span></div>
-                        <div style={style}>{players[1].name}: <span className='status' style={{ color: checkPlayerStatus(player2Status) }}> <b>{player2Status}</b></span></div>
-                    </div>
-                    <div className="modal-btns">
-                        <button id="rematch" type='button' onClick={onReady}><b>Ready</b></button>
-                        <button id="leave" type='button' onClick={onLeave}><b>Leave</b></button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <ModalContainer>
+            <Overlay />
+            <ModalWrapper>
+                <Modal>
+                    <WinnerName>Winner:  {winner.name}</WinnerName>
+                    <PlayerStatusContainer>
+                        <PlayerStatusWrapper>
+                            {players[0].name}:
+                            <Status color={checkPlayerStatus(player1Status)}>
+                                {player1Status}
+                            </Status>
+                        </PlayerStatusWrapper>
+                        <PlayerStatusWrapper>
+                            {players[1].name}:
+                            <Status color={checkPlayerStatus(player2Status)}>
+                                {player2Status}
+                            </Status>
+                        </PlayerStatusWrapper>
+                    </PlayerStatusContainer>
+                    <ModalBtnsWrapper>
+                        <RematchBtn onClick={onReady}>Ready</RematchBtn>
+                        <LeaveBtn onClick={onLeave}>Leave</LeaveBtn>
+                    </ModalBtnsWrapper>
+                </Modal>
+            </ModalWrapper>
+        </ModalContainer>
     )
 }

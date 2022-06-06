@@ -4,7 +4,8 @@ import {
     hideBtns,
     sliderAnimation
 } from '../functions';
-
+import { ButtonContainer } from "../styles/sc-arrow-buttons";
+//UpBtn, DownBtn, LeftBtn, RightBtn
 
 export default function Buttons({ socket, turn, setTurn, getWinner }) {
     const buttons = [['up', 'rotate(270)'], ['down', 'rotate(90)'], ['left', 'rotate(180)'], ['right', 'rotate(0)']];
@@ -45,14 +46,14 @@ export default function Buttons({ socket, turn, setTurn, getWinner }) {
     }, [socket, getWinner, setTurn]);
 
     return (
-        <div className="btns">
+        <ButtonContainer>
             {buttons.map((set, idx) => {
-                return <button type="button" key={idx} className={set[0] + 'Btn hide button'} onClick={(e) => moveSlider(e, set[0])}>
+                return <button type="button" key={idx} className={set[0] + 'Btn hide button'} onClick={(e) => moveSlider(e, socket, turn, set[0])}>
                     <svg width="20" height="20" viewBox="0 0 24 24" transform={set[1]}>
                         <path d="M22 12l-20 12 5-12-5-12z" />
                     </svg>
                 </button>
             })}
-        </div>
+        </ButtonContainer>
     )
 }

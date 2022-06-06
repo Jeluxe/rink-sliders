@@ -8,7 +8,6 @@ import io from 'socket.io-client';
 import Board from './components/board';
 import Home from './components/home';
 import WaitingPage from './components/waiting-page';
-import Testing from './components/socket testing';
 import Title from './components/title';
 
 
@@ -23,7 +22,6 @@ function App() {
           <Route exact path="/" element={<Home socket={socket} />} />
           <Route path="/waiting-page" element={<WaitingPage socket={socket} />} />
           <Route path="game/:id" element={<Board socket={socket} />} />
-          <Route path="/testing" element={<Testing socket={socket} />} />
           <Route
             path="*"
             element={

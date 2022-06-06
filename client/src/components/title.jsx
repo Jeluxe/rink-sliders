@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { StyledTitle } from "../styles/sc-title";
 
 
 export default function Title({ socket }) {
@@ -9,6 +10,6 @@ export default function Title({ socket }) {
         navigate('/');
     }
     return (
-        <div id="title" style={{ width: '100%' }}><span onClick={onclick}>Rink Sliders</span></div>
+        <StyledTitle><span onClick={onclick}>Rink Sliders</span></StyledTitle>
     )
 }

@@ -1,13 +1,13 @@
 import React from "react";
+import { StyledPlayer } from "../styles/sc-player";
 
 export default function Player({ player: { name, id, color } }) {
     return (
-        <div
+        <StyledPlayer
             id={id}
             key={id}
-            className="player"
-            style={{ backgroundColor: color }}>
+            bg={color}>
             {name}
-        </ div >
+        </StyledPlayer >
     )
 }

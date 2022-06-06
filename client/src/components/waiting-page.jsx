@@ -1,21 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Container, Wrapper } from "../styles/sc-waiting-page";
 
-const containerStyle = {
-    display: 'flex',
-    justifyContent: 'center',
-    marginTop: '30px'
-}
-
-const wrapperStyle = {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: '30px',
-    borderRadius: '5px',
-    fontSize: '20px',
-    backgroundColor: '#fdecbc'
-}
 
 export default function WaitingPage({ socket }) {
     const navigate = useNavigate();
@@ -33,11 +19,11 @@ export default function WaitingPage({ socket }) {
     })
 
     return (
-        <div style={containerStyle}>
-            <div style={wrapperStyle}>
+        <Container>
+            <Wrapper>
                 <div>waiting for another player to join</div>
                 <div> please wait . . . </div>
-            </div>
-        </div>
+            </Wrapper>
+        </Container>
     )
 }

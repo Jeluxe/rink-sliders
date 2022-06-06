@@ -2,9 +2,9 @@ import {
     validBlock,
     getArray,
     hideBtns,
-} from '../functions';
+} from './functions';
 
-const moveSlider = (e, direction) => {
+const moveSlider = (e, socket, turn, direction) => {
     e.stopPropagation();
 
     if (socket.id === turn.id) {
@@ -49,4 +49,4 @@ const onKeyPress = (e) => {
     }
 }
 
-module.exports = { moveSlider, playerMove, onKeyPress }
+export { moveSlider, playerMove, onKeyPress }

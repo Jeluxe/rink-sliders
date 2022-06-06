@@ -5,11 +5,9 @@
 /.pnp
 .pnp.js
 
-#devlopment
-/src/pages
-
 # testing
 /coverage
+socket-disconnect-testing.jsx
 
 # production
 /.env

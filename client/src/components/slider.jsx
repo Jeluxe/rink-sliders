@@ -5,26 +5,29 @@ import { playerMove } from '../event-functions';
 import {
     checkValidDirections,
     getDirectionType,
+    checkSurroundings,
     hideBtns,
     playerAnimation
 } from '../functions';
+import { StyledSlider } from "../styles/sc-slider";
+
 
 export default function Slider({ socket, player, turn, setTurn, getWinner }) {
     useEffect(() => {
-        socket.off('player moving').on('player moving', ({ turn, currentPlayerID, tgtPos }) => {
+        socket.off('player moving').on('player moving', ({ turn, tgtPos }) => {
             let slider = null;
-            let currentPlayer = document.querySelector(`[id='${currentPlayerID}']`);
-            let playerBlockPos = currentPlayer.parentNode.parentNode.id;
-            playerBlockPos = Number(playerBlockPos)
+            let currentPlayer = document.querySelector(`[id='${turn.id}']`);
+            let currentPlayerPos = currentPlayer.parentNode.parentNode.id;
+            currentPlayerPos = Number(currentPlayerPos)
             tgtPos = Number(tgtPos);
 
-            if (playerBlockPos !== tgtPos) {
+            if (currentPlayerPos !== tgtPos) {
                 try {
                     slider = document.querySelector(`.blocks:nth-child(${tgtPos})`).children[0];
 
-                    if (slider && !slider.children[1] && checkSurroundings(turn, playerBlockPos, tgtPos)) {
+                    if (slider && !slider.children[1] && checkSurroundings(turn, currentPlayerPos, tgtPos)) {
                         hideBtns(currentPlayer.parentNode);
-                        const direction = getDirectionType(playerBlockPos, tgtPos);
+                        const direction = getDirectionType(currentPlayerPos, tgtPos);
                         playerAnimation(currentPlayer, direction);
                         currentPlayer.addEventListener('transitionend', () => {
                             currentPlayer.style.transform = null;
@@ -42,22 +45,22 @@ export default function Slider({ socket, player, turn, setTurn, getWinner }) {
 
     const onClick = ({ target: { parentNode: { parentNode: { id: tgtPos } } } }) => {
         if (socket.id === turn.id) {
-            socket.emit('move player', { turn, currentPlayerID: turn.id, tgtPos });
+            socket.emit('move player', { turn, tgtPos });
         }
     }
 
     if (player) {
         return (
-            <div className="sliders" onClick={(e) => onClick(e)} >
+            <StyledSlider onClick={(e) => onClick(e)} >
                 <Player player={player} />
                 <Buttons socket={socket} turn={turn} setTurn={setTurn} getWinner={getWinner} />
-            </div>
+            </StyledSlider>
         )
     }
     return (
-        <div className="sliders" onClick={(e) => onClick(e)} >
+        <StyledSlider onClick={(e) => onClick(e)} >
             <Buttons socket={socket} turn={turn} setTurn={setTurn} getWinner={getWinner} />
-        </div>
+        </StyledSlider>
     )
 }
 
