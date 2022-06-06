@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Color, ColorPicker, ColorsContainer } from '../styles/sc-colors'
+import { Color, ColorPicker, ColorsContainer, ColorsWrapper } from '../styles/sc-colors'
 
 const Colors = ({ getColor }) => {
     const colors = ['blue', 'lightblue', 'purple', 'pink', 'red', 'green'];
@@ -46,23 +46,27 @@ const Colors = ({ getColor }) => {
 
     return (
         <ColorsContainer>
-            {colors.map((color, i) =>
-                <Color
-                    key={i}
-                    className='colors'
+            <ColorsWrapper>
+                {colors.map((color, i) =>
+                    <Color
+                        key={i}
+                        className='colors'
+                        flag={flag}
+                        bg={color}
+                        onClick={(e) => onClick(e, 'color')}
+                    />
+                )}
+            </ColorsWrapper>
+            <ColorsWrapper>
+                Custom Color:
+                <ColorPicker
+                    defaultValue={'black'}
+                    getColor={getColor}
                     flag={flag}
-                    bg={color}
-                    onClick={(e) => onClick(e, 'color')}
+                    onClick={onClick}
+                    onChange={(e) => setPickedColor(e.target.value)}
                 />
-            )}
-            Custom Color:
-            <ColorPicker
-                defaultValue={'black'}
-                getColor={getColor}
-                flag={flag}
-                onClick={onClick}
-                onChange={(e) => setPickedColor(e.target.value)}
-            />
+            </ColorsWrapper>
         </ColorsContainer>
     )
 }
